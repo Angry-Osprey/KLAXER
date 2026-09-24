@@ -23,7 +23,7 @@ The game is deliberately simple. It's the practice ground; the real subject is t
 
 ## The game
 
-Break all 35 bricks without losing your 3 lives. Higher rows are worth more (50 points at the top down to 10 at the bottom).
+Break all 200 bricks (a 10 × 20 wall) without losing your 3 lives. Higher rows are worth more (50 points at the top down to 10 at the bottom).
 
 | Action | Touch / mouse | Keyboard |
 |---|---|---|
@@ -32,6 +32,19 @@ Break all 35 bricks without losing your 3 lives. Higher rows are worth more (50 
 | Restart after the round ends | Tap | Any key |
 
 Where the ball hits the paddle sets its angle: the edges send it off sharply, the centre sends it straight up.
+
+### Power-ups
+
+Each broken brick has a 12% chance of dropping a power-up. Catch it with the paddle to use it.
+
+| Pickup | Effect |
+|---|---|
+| **W** | Wider paddle for 10 seconds |
+| **M** | Multi-ball: two extra balls (up to 8 in play). Losing an extra ball is free; only the last one costs a life |
+| **S** | Slower balls for 10 seconds |
+| **+** | Extra life |
+
+Catching a timed power-up again restarts its timer rather than stacking. Drop chance, odds, durations and strengths are all set in the Inspector (on the `PowerUps` and `GameManager` objects).
 
 ## Opening the project
 
@@ -46,9 +59,11 @@ Built with the Universal Render Pipeline, the Input System and TextMeshPro.
 
 | Script | Job |
 |---|---|
-| `GameManager` | The rules and flow: launching, score, lives, win/lose, restart |
+| `GameManager` | The rules and flow: launching, score, lives, power-up effects, win/lose, restart |
 | `BrickGrid` | Builds the brick wall at runtime, sized to the screen |
 | `Brick` | Reports when the ball breaks it |
+| `PowerUpDropper` | Rolls for a power-up when a brick breaks and drops it |
+| `PowerUp` | A falling pickup; reports when the paddle catches it |
 | `BallController` | Ball movement and paddle bounce angles |
 | `PaddleController` | Moves the paddle from input |
 | `ArenaBounds` | Fits the walls and the bottom "death zone" to the camera |
@@ -56,4 +71,4 @@ Built with the Universal Render Pipeline, the Input System and TextMeshPro.
 | `Hud` | Score, lives and game-over text |
 | `GameInput` | The one place input is read |
 
-Scripts live in `Assets/Scripts`, the brick prefab in `Assets/Prefabs`, and sprites in `Assets/Art`.
+Scripts live in `Assets/Scripts`, the brick and power-up prefabs in `Assets/Prefabs`, and sprites in `Assets/Art`.

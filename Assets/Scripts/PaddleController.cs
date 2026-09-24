@@ -11,8 +11,11 @@ public class PaddleController : MonoBehaviour
 
     Rigidbody2D rb;
     Camera cam;
+    float baseScaleX;
+    float baseHalfWidth;
     float halfWidth;
     float targetX;
+    float wideEndsAt = -1f;
 
     void Awake()
     {
@@ -22,12 +25,20 @@ public class PaddleController : MonoBehaviour
 
     void Start()
     {
-        halfWidth = GetComponent<BoxCollider2D>().bounds.extents.x;
+        baseScaleX = transform.localScale.x;
+        baseHalfWidth = GetComponent<BoxCollider2D>().bounds.extents.x;
+        halfWidth = baseHalfWidth;
         targetX = rb.position.x;
     }
 
     void Update()
     {
+        if (wideEndsAt >= 0f && Time.time >= wideEndsAt)
+        {
+            wideEndsAt = -1f;
+            SetWidthScale(1f);
+        }
+
         if (GameInput.TryGetHeldPointer(out Vector2 screenPosition))
             targetX = cam.ScreenToWorldPoint(screenPosition).x;
         else
@@ -39,5 +50,20 @@ public class PaddleController : MonoBehaviour
     void FixedUpdate()
     {
         rb.MovePosition(new Vector2(targetX, rb.position.y));
+    }
+
+    // Catching another one while wide restarts the timer rather than stacking.
+    public void Widen(float scale, float seconds)
+    {
+        SetWidthScale(scale);
+        wideEndsAt = Time.time + seconds;
+    }
+
+    void SetWidthScale(float scale)
+    {
+        Vector3 localScale = transform.localScale;
+        localScale.x = baseScaleX * scale;
+        transform.localScale = localScale;
+        halfWidth = baseHalfWidth * scale;
     }
 }

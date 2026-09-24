@@ -119,6 +119,72 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &315635394
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 315635396}
+  - component: {fileID: 315635395}
+  m_Layer: 0
+  m_Name: PowerUps
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &315635395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315635394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b538f5ad091d134d8c886630e16663a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PowerUpDropper
+  bricks: {fileID: 1477640523}
+  arena: {fileID: 1634918157}
+  prefab: {fileID: 8808745690847714058, guid: 09e12df3877606e4689f64b281bbb095, type: 3}
+  dropChancePercent: 12
+  fallSpeed: 3
+  options:
+  - type: 0
+    label: W
+    color: {r: 0.2, g: 0.8, b: 1, a: 1}
+    weight: 3
+  - type: 1
+    label: M
+    color: {r: 1, g: 1, b: 1, a: 1}
+    weight: 3
+  - type: 2
+    label: S
+    color: {r: 0.55, g: 1, b: 0.75, a: 1}
+    weight: 2
+  - type: 3
+    label: +
+    color: {r: 1, g: 0.45, b: 0.6, a: 1}
+    weight: 1
+--- !u!4 &315635396
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315635394}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &436003581
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,8 +601,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BrickGrid
   brickPrefab: {fileID: 5864846409286860126, guid: 48236c0df2161f84a8dc8db76ae4f775, type: 3}
   arena: {fileID: 1634918157}
-  columns: 7
-  rows:
+  columns: 10
+  rows: 20
+  bands:
   - color: {r: 0.9, g: 0.2, b: 0.2, a: 1}
     points: 50
   - color: {r: 0.95, g: 0.55, b: 0.15, a: 1}
@@ -547,11 +614,11 @@ MonoBehaviour:
     points: 20
   - color: {r: 0.3, g: 0.55, b: 0.95, a: 1}
     points: 10
-  brickHeight: 0.5
+  brickHeight: 0.3
   maxBrickWidth: 1.3
-  gap: 0.12
+  gap: 0.08
   sideInset: 0.3
-  topInset: 2.5
+  topInset: 1.8
 --- !u!1 &1521240853
 GameObject:
   m_ObjectHideFlags: 0
@@ -1333,8 +1400,16 @@ MonoBehaviour:
   startingLives: 3
   bricks: {fileID: 1477640523}
   ball: {fileID: 2056941711}
+  paddle: {fileID: 1573125146}
   deathZone: {fileID: 1861991501}
+  powerUps: {fileID: 315635395}
   hud: {fileID: 506804513}
+  widePaddleScale: 1.5
+  widePaddleSeconds: 10
+  slowBallScale: 0.65
+  slowBallSeconds: 10
+  multiBallExtraBalls: 2
+  maxBalls: 8
 --- !u!4 &1921760237
 Transform:
   m_ObjectHideFlags: 0
@@ -1679,3 +1754,4 @@ SceneRoots:
   - {fileID: 1477640522}
   - {fileID: 506804512}
   - {fileID: 1634918158}
+  - {fileID: 315635396}

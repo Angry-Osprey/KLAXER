@@ -17,15 +17,19 @@ public class BallController : MonoBehaviour
     bool launched;
 
     public bool IsHeld => !launched;
+    public Vector2 Direction => rb.linearVelocity.normalized;
+    public Collider2D Collider { get; private set; }
+
+    // Multiplies the base speed; set by power-ups such as slow-ball.
+    public float SpeedScale { get; set; } = 1f;
+
+    float CurrentSpeed => speed * SpeedScale;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    void Start()
-    {
-        ResetToPaddle();
+        Collider = GetComponent<Collider2D>();
+        rb.simulated = false; // held on the paddle until launched
     }
 
     void LateUpdate()
@@ -37,7 +41,7 @@ public class BallController : MonoBehaviour
     {
         // Bouncy-material collisions drift in speed and can settle into near-flat paths;
         // pin both every step.
-        if (launched) rb.linearVelocity = KeepPlayable(rb.linearVelocity) * speed;
+        if (launched) rb.linearVelocity = KeepPlayable(rb.linearVelocity) * CurrentSpeed;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -48,7 +52,7 @@ public class BallController : MonoBehaviour
         Bounds paddleBounds = collision.collider.bounds;
         float hit = Mathf.Clamp((rb.position.x - paddleBounds.center.x) / paddleBounds.extents.x, -1f, 1f);
         float angle = hit * maxPaddleAngle * Mathf.Deg2Rad;
-        rb.linearVelocity = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * speed;
+        rb.linearVelocity = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * CurrentSpeed;
     }
 
     public void ResetToPaddle()
@@ -67,10 +71,16 @@ public class BallController : MonoBehaviour
 
     public void Launch()
     {
+        LaunchFrom(transform.position, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+    }
+
+    public void LaunchFrom(Vector2 position, Vector2 direction)
+    {
         launched = true;
         rb.simulated = true;
-        rb.position = transform.position;
-        rb.linearVelocity = new Vector2(Random.Range(-0.5f, 0.5f), 1f).normalized * speed;
+        transform.position = position;
+        rb.position = position;
+        rb.linearVelocity = direction.normalized * CurrentSpeed;
     }
 
     Vector2 KeepPlayable(Vector2 velocity)
