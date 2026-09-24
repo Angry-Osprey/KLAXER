@@ -20,6 +20,12 @@ The game is deliberately simple. It's the practice ground; the real subject is t
 - Had Claude build a first version of the game, then review and refactor its own design choices.
 - Drove the Unity Editor entirely from the command line: building a brick prefab, replacing 35 hand-placed bricks with a runtime grid, converting the UI to TextMeshPro, and play-testing with simulated mouse and keyboard input.
 - Set up branches, Git LFS and pushes to GitHub along the way.
+- Built Android APKs from the command line and tested them on my phone. The first one showed only the score and lives on a grey screen. Claude traced it through the build report and the Editor log to Unity reusing stale cached build data, which left out the shaders that put the camera image on screen. A clean build fixed it.
+- Added new features on the `dev` branch: a 200-brick wall and falling power-ups, tested in the Editor by stepping the physics from the command line.
+
+### Where it's at
+
+The latest work (200 bricks and power-ups) is on `dev` and still needs a test on a real phone. `main` holds the last stable milestone.
 
 ## The game
 
@@ -54,6 +60,8 @@ Catching a timed power-up again restarts its timer rather than stacking. Drop ch
 4. Set the Game view to a portrait resolution (for example 1080×1920) to see it as intended.
 
 Built with the Universal Render Pipeline, the Input System and TextMeshPro.
+
+**Building for Android:** always do a clean build, which ignores Unity's cached build data. An incremental build once produced an APK that only showed the HUD on a grey screen (see above). The app installs as `com.klaxer.brickbreaker`.
 
 ## Code layout
 
